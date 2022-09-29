@@ -1,18 +1,9 @@
-package home2;
+package home3;
 
-public class home2 {
+public class home3 {
 
     public static void main(String[] params)
-    {
- 
-        //System.out.printf("переместить диск %d c %d на %d \n",n , i ,j);
-
-        System.out.println("ряд треугольных чисел от 1 до 10  ");
-        for (int i = 1; i < 11; ++i)
-            System.out.print(next_triangular_number(i)+" ");
-        System.out.println("");
-        System.out.println("сумма треугльных чисел до 10 включительно = "+ summ_triangular_numbers(10));
- 
+    { 
         System.out.println("порядок перестановки блинов для ханойской башни для 4 блинов");
         tower_of_hanoi(4,1,2);
         System.out.println("");
@@ -35,17 +26,8 @@ public class home2 {
         System.out.println(); 
        
     }
-
-    // https://ru.wikipedia.org/wiki/Треугольное_число
-    public static int next_triangular_number(int n) {
-        return (int) (n * (n + 1) / 2);
-    }
-
-    public static int summ_triangular_numbers(int n) {
-        n++;
-        return (int) (Math.pow(n, 3) - n) / 6;
-    }
-
+ 
+    
     //
     public static void tower_of_hanoi(int n, int i, int j) {
         // условие завершения рекурсии
