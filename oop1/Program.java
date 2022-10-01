@@ -79,3 +79,73 @@ public class Program {
 
     }
 }
+/*
+ * >>>
+ oop1.Product
+name: чепупелли, price: 200, count: 300000, unit:штука
+oop1.ChildrenProduct
+name: корм, price: 100, count: 2, unit:кг minimumAge: 3, hypoallergenic: true
+oop1.Drink
+name: Кола, price: 30, count: 1, unit:л volume: 1
+oop1.FoodStuff
+name: Байкал, price: 30, count: 1, unit:л expirationDate: 01-10-2022 
+oop1.HygieneItem
+name: прокладка, price: 30, count: 1, unit:шт piecesPackage: 20
+oop1.Lemonade
+name: колокольчик, price: 30, count: 1, unit:л volume: 1  aerated: true
+oop1.Milk
+name: Горбенки, price: 30, count: 1, unit:л volume: 1  fatPercentage: 5, expirationDate: 6
+oop1.Bread
+name: Черный, price: 20, count: 1, unit:шт expirationDate: завтра  flourType: ржаная
+oop1.Egg
+name: свежие, price: 20, count: 1, unit:шт expirationDate: завтра  amountInPackage: 10
+oop1.Mask
+name: синие, price: 20, count: 1, unit:шт expirationDate: завтра
+oop1.ToiletPaper
+name: зева, price: 20, count: 1, unit:рулон piecesPackage: 4 numberLayers: 3
+oop1.Diaper
+name: подгузник, price: 20, count: 1, unit:щт piecesPackage: 4 size: 5 minimumWeight: 0 maximumWeight: 3 type: small
+oop1.Pacifier
+name: соска, price: 20, count: 1, unit:шт minimumAge: 1, hypoallergenic: true
+# WARNING: Unable to get Instrumentation. Dynamic Attach failed. You may add this JAR as -javaagent manually, or supply -Djdk.attach.allowAttachSelf
+# WARNING: Unable to attach Serviceability Agent. sun.jvm.hotspot.memory.Universe.getNarrowOopBase()
+# Running 64-bit HotSpot VM.
+# Using compressed oop with 3-bit shift.
+# Using compressed klass with 3-bit shift.
+# WARNING | Compressed references base/shifts are guessed by the experiment!
+# WARNING | Therefore, computed addresses are just guesses, and ARE NOT RELIABLE.
+# WARNING | Make sure to attach Serviceability Agent to get the reliable addresses.
+# Objects are 8 bytes aligned.
+# Field sizes by type: 4, 1, 1, 2, 2, 4, 4, 8, 8 [bytes]
+# Array element sizes: 4, 1, 1, 2, 2, 4, 4, 8, 8 [bytes]
+
+oop1.ChildrenProduct object internals:
+OFF  SZ                TYPE DESCRIPTION                      VALUE
+  0   8                     (object header: mark)            N/A
+  8   4                     (object header: class)           N/A
+ 12   4                 int Product.price                    N/A
+ 16   4                 int Product.count                    N/A
+ 20   4    java.lang.String Product.name                     N/A
+ 24   4    java.lang.String Product.unit                     N/A
+ 28   4                 int ChildrenProduct.minimumAge       N/A
+ 32   4   java.lang.Boolean ChildrenProduct.hypoallergenic   N/A
+ 36   4                     (object alignment gap)
+Instance size: 40 bytes
+Space losses: 0 bytes internal + 4 bytes external = 4 bytes total
+
+oop1.ChildrenProduct object internals:
+OFF  SZ                TYPE DESCRIPTION                      VALUE
+  0   8                     (object header: mark)            0x0000000000000001 (non-biasable; age: 0)
+  8   4                     (object header: class)           0x01000bf0
+ 12   4                 int Product.price                    100
+ 16   4                 int Product.count                    2
+ 20   4    java.lang.String Product.name                     (object)
+ 24   4    java.lang.String Product.unit                     (object)
+ 28   4                 int ChildrenProduct.minimumAge       3
+ 32   4   java.lang.Boolean ChildrenProduct.hypoallergenic   true
+ 36   4                     (object alignment gap)
+Instance size: 40 bytes
+Space losses: 0 bytes internal + 4 bytes external = 4 bytes total
+
+ 
+ */
