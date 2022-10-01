@@ -1,0 +1,49 @@
+{
+    // Используйте IntelliSense, чтобы узнать о возможных атрибутах.
+    // Наведите указатель мыши, чтобы просмотреть описания существующих атрибутов.
+    // Для получения дополнительной информации посетите: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch home2",
+            "request": "launch",
+            "mainClass": "home2.home2",
+            "projectName": "java_4681b91f"
+        },
+        {
+            "type": "java",
+            "name": "Launch home3",
+            "request": "launch",
+            "mainClass": "home3.home3",
+            "projectName": "java_4681b91f"
+        },
+        {
+            "type": "java",
+            "name": "Launch home4",
+            "request": "launch",
+            "mainClass": "home4.home4",
+            "projectName": "java_4681b91f"
+        },
+        {
+            "type": "java",
+            "name": "Launch Program",
+            "request": "launch",
+            "mainClass": "oop1.Program",
+            "projectName": "java_4681b91f"
+        },
+        {
+            "type": "java",
+            "name": "Launch Tree",
+            "request": "launch",
+            "mainClass": "tree.Tree",
+            "projectName": "java_4681b91f"
+        }
+    ]
+}
