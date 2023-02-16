@@ -146,5 +146,6 @@ OFF  SZ                TYPE DESCRIPTION                      VALUE
  36   4                     (object alignment gap)
 Instance size: 40 bytes
 Space losses: 0 bytes internal + 4 bytes external = 4 bytes total
+
  
  */
