@@ -5,6 +5,7 @@ package oop_lab1;
  */
 abstract class Human{
  
+
     protected String name;//доступны наследникам
     protected int mana;
     protected int hp;
@@ -37,6 +38,7 @@ abstract class Human{
     public void setHp(int hp){
         this.hp = hp;
     }
+
 
 }
 
