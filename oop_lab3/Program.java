@@ -61,10 +61,12 @@ public class Program {
 
         for(int i=0; i<10; i++)
         {
+            
             party1.add(factoryType1.create());
             party2.add(factoryType2.create());
         } 
  
+
 
         party1.sort(null);
         party2.sort(null);
@@ -84,27 +86,27 @@ public class Program {
 }
 /*
  * >>>  
-              Qyburn          Peasant -  onrush:    1 hp:    1 armor:    1 speed:    3 damage:    1 -  1
-       Samwell Tarly            Rogue -  onrush:    8 hp:   10 armor:    3 speed:    6 damage:    2 -  4
-   Rhaegar Targaryen            Rogue -  onrush:    8 hp:   10 armor:    3 speed:    6 damage:    2 -  4
-               Qotho            Rogue -  onrush:    8 hp:   10 armor:    3 speed:    6 damage:    2 -  4
-       Petyr Baelish            Rogue -  onrush:    8 hp:   10 armor:    3 speed:    6 damage:    2 -  4
-    Tommen Baratheon            Rogue -  onrush:    8 hp:   10 armor:    3 speed:    6 damage:    2 -  4
-               Qotho          Warlock -  onrush:   17 hp:   30 armor:   12 speed:    9 damage:   -5 - -5
-    Tommen Baratheon          Warlock -  onrush:   17 hp:   30 armor:   12 speed:    9 damage:   -5 - -5
-   Rhaegar Targaryen          Warlock -  onrush:   17 hp:   30 armor:   12 speed:    9 damage:   -5 - -5
-                 Pyp          Warlock -  onrush:   17 hp:   30 armor:   12 speed:    9 damage:   -5 - -5
+    Tyrion Lannister          Hawkeye -  onrush: 12  hp: 15  armor: 10  speed:  9  damage:    8 - 10
+         Sansa Stark          Hawkeye -  onrush: 12  hp: 15  armor: 10  speed:  9  damage:    8 - 10
+       Septa Mordane          Warlock -  onrush: 17  hp: 30  armor: 12  speed:  9  damage:   -5 - -5
+       Petyr Baelish          Hawkeye -  onrush: 12  hp: 15  armor: 10  speed:  9  damage:    8 - 10
+         Syrio Forel          Hawkeye -  onrush: 12  hp: 15  armor: 10  speed:  9  damage:    8 - 10
+               Qotho          Warlock -  onrush: 17  hp: 30  armor: 12  speed:  9  damage:   -5 - -5
+      Sandor Clegane          Warlock -  onrush: 17  hp: 30  armor: 12  speed:  9  damage:   -5 - -5
+         Syrio Forel            Rogue -  onrush:  8  hp: 10  armor:  3  speed:  6  damage:    2 -  4
+          Spice King          Peasant -  onrush:  1  hp:  1  armor:  1  speed:  3  damage:    1 -  1
+               Qotho          Peasant -  onrush:  1  hp:  1  armor:  1  speed:  3  damage:    1 -  1
 
-         Syrio Forel          Peasant -  onrush:    1 hp:    1 armor:    1 speed:    3 damage:    1 -  1
-     Renly Baratheon          Warlord -  onrush:    4 hp:   10 armor:    5 speed:    4 damage:    1 -  3
-     Renly Baratheon          Warlord -  onrush:    4 hp:   10 armor:    5 speed:    4 damage:    1 -  3
-       Theon Greyjoy       Arbalester -  onrush:    6 hp:   10 armor:    3 speed:    4 damage:    2 -  3
-               Qotho       Arbalester -  onrush:    6 hp:   10 armor:    3 speed:    4 damage:    2 -  3
-         Sansa Stark       Arbalester -  onrush:    6 hp:   10 armor:    3 speed:    4 damage:    2 -  3
-      Sandor Clegane           Cleric -  onrush:   12 hp:   30 armor:    7 speed:    5 damage:   -4 - -4
-               Qotho           Cleric -  onrush:   12 hp:   30 armor:    7 speed:    5 damage:   -4 - -4
-       Rodrik Cassel           Cleric -  onrush:   12 hp:   30 armor:    7 speed:    5 damage:   -4 - -4
-   Rhaegar Targaryen           Cleric -  onrush:   12 hp:   30 armor:    7 speed:    5 damage:   -4 - -4
+                 Pyp           Cleric -  onrush: 12  hp: 30  armor:  7  speed:  5  damage:   -4 - -4
+      Sandor Clegane           Cleric -  onrush: 12  hp: 30  armor:  7  speed:  5  damage:   -4 - -4
+     Renly Baratheon           Cleric -  onrush: 12  hp: 30  armor:  7  speed:  5  damage:   -4 - -4
+      Sandor Clegane       Arbalester -  onrush:  6  hp: 10  armor:  3  speed:  4  damage:    2 -  3
+       Septa Mordane          Warlord -  onrush:  4  hp: 10  armor:  5  speed:  4  damage:    1 -  3
+       Septa Mordane          Warlord -  onrush:  4  hp: 10  armor:  5  speed:  4  damage:    1 -  3
+          Spice King          Warlord -  onrush:  4  hp: 10  armor:  5  speed:  4  damage:    1 -  3
+      Sandor Clegane          Warlord -  onrush:  4  hp: 10  armor:  5  speed:  4  damage:    1 -  3
+       Septa Mordane          Warlord -  onrush:  4  hp: 10  armor:  5  speed:  4  damage:    1 -  3
+        Rickon Stark          Peasant -  onrush:  1  hp:  1  armor:  1  speed:  3  damage:    1 -  1
  */
 
 

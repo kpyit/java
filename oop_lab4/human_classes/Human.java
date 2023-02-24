@@ -1,13 +1,12 @@
-package oop_lab3.human_classes;
+package oop_lab4.human_classes;
 
-import oop_lab3.Names;
-import oop_lab3.interfaceGame;
-import oop_lab3.humanFactory;
+import oop_lab4.Names;
+import oop_lab4.interfaceGame;
+import oop_lab4.humanFactory;
 
 /**
- * Базовый класс
- * не работает абстрация в подмодуле внешними интерфесами
- * // abstract class Human implements interfaceGame,humanFactory{
+ * Базовый класс    * не работает абстрация в подмодуле внешними интерфесами мое
+ * // class Human implements interfaceGame,humanFactory{
  */
 
 public class Human implements interfaceGame, humanFactory, Comparable<Human> {
@@ -64,14 +63,13 @@ public class Human implements interfaceGame, humanFactory, Comparable<Human> {
         name = chName.isEmpty() ? Names.getName() : chName;
     }
 
-
     /*
      * (non-Javadoc)
      * 
      * @see oop_lab2.interfaceGame#getInfo()
      */
     public String getInfo() {
-        return String.format("%20s  %15s -  onrush: %2d  hp: %2d  armor: %2d  speed: %2d  damage: %4d - %2d", 
+        return String.format("%20s  %15s -  onrush: %4d hp: %4d armor: %4d speed: %4d damage: %4d - %2d", 
         this.name, this.className,this.onrush, this.hp, this.armor,  this.speed, this.damage, this.damageMax);
     }
 
@@ -101,15 +99,17 @@ public class Human implements interfaceGame, humanFactory, Comparable<Human> {
      */
     @Override
     public int compareTo(Human o) {
-        
-        if (this.speed > o.getSpeed())
-        return -1;
-        else if (this.speed < o.getSpeed())
-        return 1;
-        else
-        return 0;         
+        /*
+         * if (this.speed > o.getSpeed())
+         * return 1;
+         * else if (this.speed < o.getSpeed())
+         * return -1;
+         * else
+         * return 0;
+         */
         // или
-        // return Integer.compare(this.onrush, o.getSpeed());//вызвать еще 1 обьект
+        return Integer.compare(this.onrush, o.getOnrush());// хреновый ход вызвать еще 1 обьект
+
     }
     public int getOnrush() {
         return onrush;
