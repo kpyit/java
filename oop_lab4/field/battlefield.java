@@ -1,55 +1,38 @@
 package oop_lab4.field;
 
-import static oop_lab4.constants.*;
-import oop_lab4.field.utilCoords;
-import oop_lab4.human_classes.Human;
-import oop_lab4.field.WaveAlg;
+import static oop_lab4.constants.*; 
+import oop_lab4.human_classes.Human; 
 
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.Arrays; 
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
+import java.util.Comparator; 
 
 
 /*
  *  *  КЛАСС ПОЛЕ СРАЖЕНИЯ
  */
-public class battlefield extends utilCoords {
+public class battlefield extends drawField {
 
-    
-    int pos_heroes[][];//id hero
+    //матрица позиций героев  id в позиции
+    int[][] pos_heroes;
     //матрица расстояний между каждым из игроков 
     double matrixRange[][];
-
-    int heightField;
-    int lenghtField;
-    int field_raw[][];// просто рандомно заполненный массив как шаблон для row
-
-
-
+ 
     int field_prebuffer1[][];// поле с текущим окружением но без действий текущего игрока
 
     int field_buffer1[][];// поле с текущим окружением  
     int field_buffer2[][];// поле с текущим дейтсвием игрока с отрисовкой пользователю с шагом задержки
- 
-    Random rand = new Random();
-
-    WaveAlg findPath;
-    
-
-
+  
     int nextIdGroup = 0;
     int nextId2Step = 0;
     int nextIdMax = 0;
-    ArrayList<Human> action_queue = new ArrayList<>();//очередь игроков для действий
-  
 
-    //очередь в игре может сортироваться по размному поэтому вынес компаратор сюда
+    ArrayList<Human> action_queue = new ArrayList<>();//очередь игроков 
+  
+    //очередь в игре сортировка
     Comparator<Human> sort4action = new Comparator<Human>() {
         public int compare(Human h1, Human h2) {
             if(h1.getMana() < h2.getMana())
@@ -60,71 +43,48 @@ public class battlefield extends utilCoords {
         };        
     };
 
+
     /**
      * конструктор отвечающий за создание боевого поля 
      * @param height высота поля
      * @param width ширина поля     * 
     */
     public battlefield(int height, int width){
+        super(height, width);
 
-        this.heightField = height;
-        this.lenghtField = width;
-
-        this.field_raw = new int[height][width];// карта местности [rows][columns]
         this.pos_heroes = new int[height][width];//id hero
-        
-        this.findPath = new WaveAlg(height,width);
-
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++)
-            {
-                this.pos_heroes[i][j] = -1;
-            }
-        }
-
-        // Заполняем карту лесом
-        for (int i = 0; i < this.heightField; i++) {
-            for (int j = 0; j < this.lenghtField; j++) {
-                field_raw[i][j] = (int) (rand.nextInt(11) / 10);
-            }
-        } 
+       
+        this.setMatrixValue( pos_heroes, -1); 
     } 
-
-    public void printFieldPlay() {
-
-        for (int i = 0; i < this.heightField; i++) {
-            for (int j = 0; j < this.lenghtField ; j++) {
-                System.out.print(SQUARES[field_raw[i][j]]);
-            }
-            System.out.println();
-        }
-    }
+ 
 
     /* добавляет новую группу персонажей в очередь действий */
     public int addGroup(ArrayList<Human> newGroup)
     {
         this.nextIdGroup++;
         //устанавливаем группу пользователю
-        newGroup.forEach((n) -> n.group = nextIdGroup);
+        newGroup.forEach(n -> n.group = nextIdGroup);
+        
         this.action_queue.addAll(newGroup);
 
         Collections.shuffle(this.action_queue);
 
-        this.action_queue.sort(sort4action);//сейчас сортировка по скорости
+        this.action_queue.sort(sort4action);//сортировка по скорости
 
         this.nextIdMax = action_queue.size();
 
-
-        for (int i = 0; i < this.action_queue.size(); i++)//каждое существо хранит свой id
+        //каждое существо хранит свой id списка
+        for (int i = 0; i < this.action_queue.size(); i++)
             this.action_queue.get(i).id = i;
         
 
-
-
-        this.matrixRange = new double[nextIdMax][nextIdMax];//треугольная
+        //треугольная      
+        this.matrixRange = new double[nextIdMax][nextIdMax];
 
         return this.nextIdGroup; //
     }
+
+
 
     public void initPositionsGroup()
     { 
@@ -133,7 +93,6 @@ public class battlefield extends utilCoords {
         ArrayList<Point> generatedPos = new ArrayList<>();
 
         Point newPos;
-
 
         for(int idGroup = 1; idGroup <= maxGroup; idGroup++){
             for(int id  = 0; id  < nextIdMax; id++)
@@ -151,152 +110,15 @@ public class battlefield extends utilCoords {
                     this.action_queue.get(id).pos = newPos;
                 }
             }
-        }
-  
-        this.ranges_calc_full();        
-    }
-
-    /**
-     * расчет матрицы растояний  
-      */
-    public void ranges_calc_full()
-    {// треугольная чтобы получить растояние надо взять меньший id и посмотреть растояние до большего id
-        for (int i = 0; i < nextIdMax; i++){
-            for (int j = i; j < nextIdMax; j++){                
-                this.matrixRange[i][j] = this.action_queue.get(i).pos.distance(this.action_queue.get(j).pos) ;//треугольная
-            }
-        }
-    }
-
-    /*
-     * Перерасчет растояний для текущего игрока сделавшего ход
-     */
-    public void ranges_recalc_hero(int id)
-    {
-        Point PosCurrentHero =  this.action_queue.get(id).pos;
-        //для перерасчета будет использоваться вся строка от id+1 
-        for (int j = id+1; j < nextIdMax; j++){
-            //растояние до самого себя не пересчитввается
-            this.matrixRange[j][id] = PosCurrentHero.distance(this.action_queue.get(j).pos) ;
-        }
-        // и весь столбец id до id строки- для id меньше текущего 
-        for (int j = 0; j < id; j++) {                
-            this.matrixRange[id][j] = PosCurrentHero.distance(this.action_queue.get(j).pos) ;
-        }
-    }
-
-    /** 
-     * печать матрицы позиций существ
-     */     
-    public void print_pos_heroes() {
-        for (int i = 0; i < heightField; i++) {
-            for (int j = 0; j < lenghtField; j++) {
-                System.out.print(String.format("|%2d", this.pos_heroes[i][j]));
-            }
-            System.out.println("|");
-        }
-    }
-    /**
-     * печать матрицы растояний между существами
-     */
-    public void print_ranges()
-    {
-        for (int i = 0; i < nextIdMax; i++) {
-            for (int j = 0; j < nextIdMax; j++) {
-                System.out.print(String.format("|%4.1f", this.matrixRange[i][j]));
-            }
-            System.out.println("|");
-        }
-    } 
-
-    /**
-     * Поле с группами
-     */
-    public void printFieldVGroups(int[][] field)
-    {
-        String buffer = "";//Нужно спроектировать буфера
-        // field_buffer1 = field_raw.clone();//Поле которое будем наполнять игроками
-        for (int i = 0; i < this.heightField; i++) {
-            for (int j = 0; j < this.lenghtField ; j++){
-
-                if (pos_heroes[i][j]>-1)//если в клетке существо
-                { 
-                    if(this.action_queue.get(pos_heroes[i][j]).hp == 0)//дохлый
-                    {
-                        buffer += ANSI_RED_BACKGROUND;
-                    } else 
-                        buffer += GROUP_COLORS[this.action_queue.get(pos_heroes[i][j]).group];
-                    
-                    buffer += this.action_queue.get(pos_heroes[i][j]).Symbol;
-
-                    // buffer += GROUP_COLORS[this.action_queue.get(pos_heroes[i][j]).group]+this.action_queue.get(pos_heroes[i][j]).Symbol;
-                } else {
-                    buffer += SQUARES[field[i][j]];
-                }
-            }
-            buffer +="\n";                      
         } 
-        System.out.print("\033[H\033[2J");
-        System.out.flush(); 
-        System.out.print(buffer);  
+        this.ranges_calc_full(this.matrixRange, this.action_queue);        
     }
-    
-    public void printFieldVGroupsEvent(int[][] field,int selectedId, String color)
-    {
-        String buffer = "";//Нужно спроектировать буфера
-        // field_buffer1 = field_raw.clone();//Поле которое будем наполнять игроками
-        for (int i = 0; i < this.heightField; i++) {
-            for (int j = 0; j < this.lenghtField ; j++){
-                if (pos_heroes[i][j]>-1)//если в клетке существо
-                { 
-                    if(selectedId == pos_heroes[i][j])
-                        buffer += color;
-                    else if(this.action_queue.get(pos_heroes[i][j]).hp == 0)//дохлый
-                    {
-                        buffer += ANSI_RED_BACKGROUND;
-                    } else 
-                        buffer += GROUP_COLORS[this.action_queue.get(pos_heroes[i][j]).group];
-                    
-                    buffer += this.action_queue.get(pos_heroes[i][j]).Symbol;
-                } else {
-                    buffer += SQUARES[field[i][j]];
-                }
-            }
-            buffer +="\n";                      
-        } 
-        System.out.print("\033[H\033[2J");
-        System.out.flush(); 
-        System.out.print(buffer);  
-    }
+ 
 
     /*
      * 
      */
-    private static void sleep()
-    {
-        try {//страшный способ спать
-            // for (int i=0; i<timeToWait ; i++)
-                Thread.sleep(200);
-        } catch (InterruptedException ie)
-        {
-            Thread.currentThread().interrupt();
-        }  
-    }
-
-    private static void sleep100()
-    {
-        try {//
-                Thread.sleep(200);
-        } catch (InterruptedException ie)
-        {
-            Thread.currentThread().interrupt();
-        }  
-    }
-    
-    /*
-     * 
-     */
-    public void stepNextHero(int id)
+    private void stepNextHero(int id)
     { 
         if(this.action_queue.get(id).getHp() == 0)
             return;
@@ -310,7 +132,7 @@ public class battlefield extends utilCoords {
         Human hero;
         Human partyH;
         Human enamy;
-
+         
         switch (this.action_queue.get(id).getNextAction(this.action_queue,this.matrixRange)) 
         {
             case NOTHFING:           
@@ -323,16 +145,15 @@ public class battlefield extends utilCoords {
                 // System.out.printf("GO_TO_RANGE %s %n", this.action_queue.get(id).className);
 
                 Human actionHero = this.action_queue.get(id);                 
-                this.field_buffer2  = Arrays.stream(field_buffer1).map(int[]::clone).toArray(int[][]::new);//Поле для поиска пути        
+                // this.field_buffer2  = Arrays.stream(field_buffer1).map(int[]::clone).toArray(int[][]::new);//Поле для поиска пути        
                 pathHero = this.steps2Range(this.field_buffer1, actionHero.pos, this.action_queue.get(actionHero.idHumanAttack).pos,actionHero.range, actionHero.speed);
-                
-                
+                 
                 //случай если к ближайшему врагу пути не найдено
                 int counter_enamies = 0;
                 while(pathHero.isEmpty() && counter_enamies < actionHero.enamies.size())
                 {
-                    this.field_buffer2  = Arrays.stream(field_buffer1).map(int[]::clone).toArray(int[][]::new);//Поле для поиска пути        
-                    pathHero = this.steps2Range(this.field_buffer2, actionHero.pos, actionHero.enamies.get(counter_enamies).pos,actionHero.range, actionHero.speed);
+                    // this.field_buffer2  = Arrays.stream(field_buffer1).map(int[]::clone).toArray(int[][]::new);//Поле для поиска пути        
+                    pathHero = this.steps2Range(this.field_buffer1, actionHero.pos, actionHero.enamies.get(counter_enamies).pos,actionHero.range, actionHero.speed);
                     
                     actionHero.idHumanAttack = actionHero.enamies.get(counter_enamies).id;
 
@@ -346,18 +167,17 @@ public class battlefield extends utilCoords {
                     actionHero.pos = point;
                     pos_heroes[actionHero.pos.x][actionHero.pos.y] = actionHero.id; 
 
-                    this.printFieldVGroups(field_raw);  
+                    this.printFieldVGroups(field_raw, this.action_queue, this.pos_heroes);  
                     this.sleep100();
-                }
-                
+                } 
                 //TODO: ПЕРЕКЛЮЧИТЬ НА РАСЧЕТ ДЛЯ 1 ГЕРОЯ
-                this.ranges_calc_full();
+                this.ranges_calc_full(this.matrixRange, this.action_queue);        
                 break;
 
             case ATTACK_ENAMY:
                 // System.out.printf("ATTACK_HUMAH %s \n", this.action_queue.get(id).className) ;
                 //отрисовать тоже самое поле только 1 герою фон поставить красным которого атаковали
-                printFieldVGroupsEvent(field_raw,this.action_queue.get(id).idHumanAttack, ANSI_RED_BACKGROUND);
+                printFieldVGroupsEvent(field_raw, this.action_queue, this.pos_heroes, this.action_queue.get(id).idHumanAttack, ANSI_RED_BACKGROUND);
                 this.sleep();
 
                 //Нанести урон и в консоль вывести сюда
@@ -366,14 +186,13 @@ public class battlefield extends utilCoords {
 
                 damage = this.action_queue.get(id).damage(enamy, this.matrixRange);                
                 // System.out.printf("Hero %s %s  damage %d to hero %s %s \n",  hero.name,hero.className,damage,enamy.name,enamy.className);
-
-
+ 
                 break;
             case HEALING:
                 // System.out.printf("HEALING %s \n", this.action_queue.get(id).className) ;
 
                 //  фон  зеленым которого лечим
-                printFieldVGroupsEvent(field_raw,this.action_queue.get(id).idHumanAttack, ANSI_GREEN_BACKGROUND);
+                printFieldVGroupsEvent(field_raw, this.action_queue, this.pos_heroes, this.action_queue.get(id).idHumanAttack, ANSI_GREEN_BACKGROUND);
                 this.sleep();
 
                 //Нанести урон и в консоль вывести сюда
@@ -387,10 +206,13 @@ public class battlefield extends utilCoords {
             default:
                 // System.out.printf("default %s \n", this.action_queue.get(id).className) ;
             break;
-        };
-
+        }; 
     }//public void stepNextHero(int id)
- 
+    
+    /**
+     * 
+     * @return  выйгравшую группу
+     */
     public int round()
     {
         this.action_queue.forEach(h->this.stepNextHero(h.id));
@@ -421,36 +243,5 @@ public class battlefield extends utilCoords {
             return -1;
         else 
             return live_group;//группа выживших в сражении
-    }
- 
-    /* TODO
-     * рачет шагов перенести в утилиты по координатам!
-    */
-    public ArrayList<Point> steps2Range(int[][] field, Point startPoint, Point finishPoint, double range, int speed)
-    {
-        ArrayList<Point> fullPath2enamy = this.findPath.path(field, startPoint, finishPoint);
-
-        // System.out.printf("fullPath2enamy.size: %d \n", fullPath2enamy.size()); 
-
-        //если пути нет такое было игрок был заблокирован своими и деревом
-        if(fullPath2enamy.size() == 0)
-            return new ArrayList<Point>(); 
- 
-        int points = speed;
-        int countStep = 0;
-        
-        //Пока можем шагать или не достигли дистанции атаки
-        while(countStep < fullPath2enamy.size() && 
-            points >= 0 &&
-            range < (fullPath2enamy.get(countStep).distance(finishPoint)+1.0)){
-
-            points--;
-            countStep++;
-        }
-        
-        return new ArrayList<Point>(fullPath2enamy.subList(0, countStep));
-    }
-
-
- 
+    } 
 }//public class battlefield 

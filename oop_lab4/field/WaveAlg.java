@@ -4,7 +4,7 @@ package oop_lab4.field;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Arrays; 
     
 /* хорошее описание логики алгоритма http://www.100byte.ru/100btwrks/wv/wv.html */
 public class WaveAlg {
@@ -64,9 +64,10 @@ public class WaveAlg {
         this.swap = 0;// переключатель массивов обхода
     }
 
-    public ArrayList<Point> path(int[][] field, Point startPoint, Point finishPoint) 
+    public ArrayList<Point> path(int[][] field1, Point startPoint, Point finishPoint) 
     {
-        this.field = field; 
+        //работа с локальной копией 
+        this.field = Arrays.stream(field1).map(int[]::clone).toArray(int[][]::new);   
 
         //Сброс  
         this.clearIntArrays();
@@ -75,8 +76,8 @@ public class WaveAlg {
         this.finishPoint = finishPoint;
         
         //Cтавим метки на точки
-        field[startPoint.x][startPoint.y] = 2;
-        field[finishPoint.x][finishPoint.y] = 2;
+        this.field[startPoint.x][startPoint.y] = 2;
+        this.field[finishPoint.x][finishPoint.y] = 2;
 
         boolean pathFinded = wave();
         //System.out.printf("path finded? |%b \n", pathFinded); 
@@ -87,7 +88,7 @@ public class WaveAlg {
             // this.print_weights();
             path = this.createPathPoints();
             //this.addPath2Field();  путь героя к врагу на карту 
-            path.forEach(p -> field[p.x][p.y]=3);//путь героя к врагу на карту  
+            path.forEach(p -> this.field[p.x][p.y]=3);//путь героя к врагу на карту  
  
         } else {
             path = new ArrayList<Point>();
@@ -150,6 +151,7 @@ public class WaveAlg {
     */    
     public ArrayList<Point> createPathPoints()
     {
+        
         int x_current = this.startPoint.x;
         int y_current = this.startPoint.y;
         int x, y;
@@ -157,6 +159,7 @@ public class WaveAlg {
 
         ArrayList<Point> path = new ArrayList<>();        
         // System.out.printf("fin{%d, %d}; weidht = %d \n", x_current, y_current, weight); 
+        
         do {
             for (int[] dir : directions)// обходим 4 направления
             {
@@ -179,6 +182,8 @@ public class WaveAlg {
                 } 
             }
         } while (true); 
+        
+       
     }//ArrayList<Point> createPathPoints()
 
      
