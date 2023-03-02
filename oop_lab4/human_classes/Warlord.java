@@ -7,15 +7,16 @@ public class Warlord extends Fighter {
     public Warlord(String name) 
     {
         super(4,4,
-        10,0,5,
-        1,3,
+        15,0,5,
+        4,7,
         0,
         false,
         false,
         name); 
 
-        // super.armor += heavyArmorMastery(super.armor);
         this.className = "Warlord";
+        this.Symbol = 'D';
+
     }
 
     public Warlord() {
@@ -46,7 +47,8 @@ public class Warlord extends Fighter {
         if(super.mana >= 18)        
         {
             mana-=18;  
-            int newHp = ((human.getHp()-super.damage+15) < 0)? 0:(human.getHp()-super.damage+15);
+            // int newHp = (int)((human.getHp()-(int)(this.damage)+15) < 0)? 0:(human.getHp()-super.damage+15);
+            int newHp = 100;
             human.setHp(newHp);
         }  
     } 

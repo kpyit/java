@@ -1,21 +1,23 @@
 package oop_lab4.human_classes;
 
+import static oop_lab4.constants.*;
+
+import java.util.ArrayList;
 /**
  * разбойник
  */
-public class Rogue extends Human {
+public class Rogue extends Fighter {
 
     public Rogue(String name) {
-        super(8,6, 10, 0, 3,
-        2,
-        4,
+        super(8,6, 10, 0, 2,
+        4,7,
         0,
         false,
         false,
-        name);
+        name); 
 
-        super.mana = daggerMastery(super.mana);
-        super.className = "Rogue";
+        this.className = "Rogue"; 
+        this.Symbol = 'R';
     }
 
     public Rogue()
@@ -37,8 +39,12 @@ public class Rogue extends Human {
     public void step() {
         // TODO Auto-generated method stub
     }
+ 
 
 
+
+
+    
     /**
      * Владение Броней
      * 
@@ -55,7 +61,7 @@ public class Rogue extends Human {
      * @param human
      */
     public void criticalDamage(Human human) {
-        int defstrike = super.damage;
+        int defstrike = (int)super.damage;
         if (Math.random() < 0.1)
             defstrike += 16;
 

@@ -185,7 +185,7 @@ public class home6 {
             System.out.print(node.value);
 
         }
-
+        
         // обход в ширину
         public void breadthOrder(tree node) {
             myQueue<tree> mQueue = new myQueue<tree>();

@@ -5,7 +5,6 @@ package oop_lab4.human_classes;
  */
 public class Peasant extends Human {
     /**
-     * 
      */
     public Peasant(String name) {
         super(1,3,
@@ -15,6 +14,7 @@ public class Peasant extends Human {
         true, false,
          name);
         this.className = "Peasant";
+        this.Symbol = 'P';
     }
 
     public Peasant() {

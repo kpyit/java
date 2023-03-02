@@ -4,7 +4,7 @@ package oop_lab4.human_classes;
 /**
  * Warlock (Колдун) продвинутый класс магов
  */
-public class Warlock extends Human { 
+public class Warlock extends Wizard { 
         
     public Warlock(int onrush, int speed,
     int HP, int MP,int armor ,
@@ -14,18 +14,19 @@ public class Warlock extends Human {
     String name){
         super(17,9,
         30,0,12,
-        -5,-5,
+        5,5,
         0,
         false,
         true,
         name);
         this.className = "Warlock";
+        this.Symbol = 'K';
     } 
      
     public Warlock(String name) 
     {
         this(17,9,
-        30,0,12,
+        30,0,5,
         -5,-5,
         0,
         false,
@@ -46,12 +47,13 @@ public class Warlock extends Human {
     public String getInfo() {
         return super.getInfo();
     }
-
+    
     @Override
     public void step() {
         // TODO Auto-generated method stub
     }
-
+ 
+ 
     /**
      * Призвать Кая по идее в группу должен добавлятся кот
      */

@@ -1,34 +1,37 @@
 package oop_lab4.human_classes;
+ 
+import static oop_lab4.constants.*;
+ 
+import java.util.ArrayList;
 import java.util.List;
-
 /**
  * МОНАХ продвинутый класс магов
  */
-public class Cleric extends Human {
+public class Cleric extends Wizard {
   
     public Cleric(int onrush, int speed,
-    int HP, int MP,int armor ,
-    int damage, int damageMax, 
+    int HP, int MP, int armor ,
+    double damage, double damageMax, 
     int numberShells,
     Boolean logistics, Boolean magic,    
     String name)
     {
-        super(12,5,
-        30,0,7,
-        -4,-4,
-        0,
-        false,
-        true,
-        name); 
-        super.className = "Cleric";
+        super(onrush, speed,
+        HP, MP, armor,
+        damage, damageMax,
+        numberShells,
+        logistics, magic,
+        name);
+        this.className = "Cleric";
+        this.Symbol = 'С';
     }
         
     public Cleric(String name)
     {
         this(12,5,
-        30,0,7,
-        -4,-4,
-        0,
+        20,0,3,
+        3,3,
+        2,
         false,
         true,
         name);         
@@ -56,10 +59,81 @@ public class Cleric extends Human {
     
     @Override
     public void step() {
-        // TODO Auto-generated method stub
-
+        // TODO Auto-generated method stub 
     } 
  
+   /*
+     * метод определяющий логику персонажа
+     */
+    public int getNextAction(ArrayList<Human> allHumans, double matrixRange[][]) {
+        // можно сюда сделать внутренний список врагов
+        ArrayList<Human> heroes = new ArrayList<>();
+
+        double range2hero;
+        double minDistance = 1000;
+        int currentIdHero = -1;
+
+        // поиск ближайшего врага
+        for (int idHuman = 0; idHuman < allHumans.size(); idHuman++) {
+            //Все в группе с поврежденным здоровьем и мертвые тоже
+            if ((this.group == allHumans.get(idHuman).group) && (allHumans.get(idHuman).hp < allHumans.get(idHuman).maxHp)) {
+
+                range2hero = ((this.id > idHuman) ? matrixRange[idHuman][this.id] : matrixRange[this.id][idHuman]);
+
+                //Если есть мертвецы исцеляем их в 1 очередь
+                if(this.nShells !=0 && allHumans.get(idHuman).hp == 0)
+                {
+                    this.idHumanAttack = idHuman;
+
+                    if (this.range > range2hero) {
+                        return HEALING;//в зависимости от здоровья или лечить или воскршать
+                    } else {
+                        return GO_TO_RANGE;// идем на дистанцию атаки посокльку
+                    } 
+                } else if(allHumans.get(idHuman).hp != 0)
+                {
+                    if (range2hero < minDistance)
+                    {
+                        currentIdHero = idHuman;
+                        minDistance = range2hero;
+                    }
+                    heroes.add(allHumans.get(idHuman));
+                }
+
+            }
+        }
+    
+        // есть вообще кого лечить
+        if (heroes.size() == 0)
+        {
+            return NOTHFING;
+        }
+        // кого лечим
+        this.idHumanAttack = currentIdHero;
+
+        if (this.range > minDistance) {
+            return HEALING;
+        } else {
+            return GO_TO_RANGE;// идем на дистанцию лечения
+        }
+    }
+
+
+    public int damage(Human hero, double matrixRange[][]) {
+        //воскрешает с половиной здоровья
+        if(hero.hp == 0 && this.nShells !=0)
+        {
+            hero.hp = hero.maxHp/2;
+            this.nShells--;
+            return hero.maxHp/2;    
+        }
+
+        hero.hp = ( hero.maxHp < hero.hp+(int)this.damage) ? hero.maxHp :  hero.hp+(int)this.damage;
+        /* System.out.printf("исцелено: %d" , (int)this.damage ); */
+        return (int)this.damage;
+    }
+
+
 
     /**
      * Воскрешение

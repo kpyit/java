@@ -4,6 +4,7 @@ import oop_lab3.human_classes.*;
 
 import java.util.List;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.ArrayList;
 
@@ -70,6 +71,18 @@ public class Program {
 
         party1.sort(null);
         party2.sort(null);
+
+        //сортировка по компарататору определенному прямо в коде
+        party2.sort(new Comparator<Human>() {
+            public int compare(Human h1, Human h2) {
+                if(h1.getMana() < h2.getMana())
+                    return 1;
+                else if(h1.getMana() > h2.getMana())
+                    return -1;
+                else return 0;
+            };
+            
+        });
 
         
         System.out.println();       

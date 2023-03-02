@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Program",
+            "request": "launch",
+            "mainClass": "oop_lab4.Program",
+            "projectName": "java_4681b91f"
+        },
+        {
+            "type": "java",
             "name": "Launch Program",
             "request": "launch",
             "mainClass": "oop_lab2.Program",
